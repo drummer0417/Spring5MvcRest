@@ -44,4 +44,8 @@ public class Bootstrap implements CommandLineRunner {
 		log.info("Data loaaded, #categories: " + categoryRepository.count());
 	}
 
+	public String test(String s) {
+
+		return "Test " + s;
+	}
 }
