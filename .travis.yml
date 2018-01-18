@@ -2,12 +2,10 @@ language: java
 sudo: false # faster builds
 
 before_install:
- - chmod +x gradlew
+ - chmod +x mvn
 
-jdk:
-  - oraclejdk8
   
-script: "mvn integration-test cobertura:cobertura"
+script: "mvn cobertura:cobertura"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
