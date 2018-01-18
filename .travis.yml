@@ -2,8 +2,7 @@ language: java
 sudo: false # faster builds
 
 before_install:
- - chmod +x mvn
-
+  - chmod +x mvnw
   
 script: "mvn cobertura:cobertura"
 
