@@ -1,6 +1,12 @@
 language: java
 sudo: false # faster builds
 
+before_install:
+ - chmod +x gradlew
+
+jdk:
+  - oraclejdk8
+  
 script: "mvn integration-test cobertura:cobertura"
 
 after_success:
