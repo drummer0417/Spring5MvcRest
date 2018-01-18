@@ -4,7 +4,7 @@ sudo: false # faster builds
 before_install:
   - chmod +x mvnw
   
-script: "integration-test"
+script: "mvn integration-test"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
