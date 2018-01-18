@@ -5,16 +5,20 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.androidappfactory.domain.Category;
+import nl.androidappfactory.domain.Customer;
 import nl.androidappfactory.repositories.CategoryRepository;
+import nl.androidappfactory.repositories.CustomerRepository;
 
 @Slf4j
 @Component
 public class Bootstrap implements CommandLineRunner {
 
 	private CategoryRepository categoryRepository;
+	private CustomerRepository customerRepository;
 
-	public Bootstrap(CategoryRepository categoryRepository) {
+	public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
 		this.categoryRepository = categoryRepository;
+		this.customerRepository = customerRepository;
 	}
 
 	@Override
@@ -24,16 +28,16 @@ public class Bootstrap implements CommandLineRunner {
 		fruits.setName("fruits");
 
 		Category dried = new Category();
-		fruits.setName("dried");
+		dried.setName("dried");
 
 		Category fresh = new Category();
-		fruits.setName("fresh");
+		fresh.setName("fresh");
 
 		Category exotic = new Category();
-		fruits.setName("exotic");
+		exotic.setName("exotic");
 
 		Category nuts = new Category();
-		fruits.setName("nuts");
+		nuts.setName("nuts");
 
 		categoryRepository.save(fruits);
 		categoryRepository.save(dried);
@@ -42,10 +46,19 @@ public class Bootstrap implements CommandLineRunner {
 		categoryRepository.save(nuts);
 
 		log.info("Data loaaded, #categories: " + categoryRepository.count());
+
+		customerRepository.save(new Customer(null, "Hans", "van Meurs"));
+		customerRepository.save(new Customer(null, "Jacky", "van Meurs"));
+		customerRepository.save(new Customer(null, "Cas", "van Meurs"));
+		customerRepository.save(new Customer(null, "Anour", "van Meurs"));
+		customerRepository.save(new Customer(null, "Wilber", "van Leusden"));
+		customerRepository.save(new Customer(null, "Henk", "P"));
+
+		log.info("Data loaaded, #customers: " + customerRepository.count());
 	}
 
 	public String test(String s) {
 
-		return "Test " + s;
+		return "Test" + s;
 	}
 }
