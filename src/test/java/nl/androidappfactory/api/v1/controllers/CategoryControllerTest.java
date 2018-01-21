@@ -1,6 +1,7 @@
 package nl.androidappfactory.api.v1.controllers;
 
 import static org.hamcrest.Matchers.equalTo;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -21,8 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.androidappfactory.api.v1.controller.CategoryController;
 import nl.androidappfactory.api.v1.model.CategoryDTO;
-import nl.androidappfactory.api.v1.model.controller.CategoryController;
 import nl.androidappfactory.services.CategoryService;
 
 @Slf4j

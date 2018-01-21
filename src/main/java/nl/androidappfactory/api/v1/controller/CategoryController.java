@@ -1,4 +1,4 @@
-package nl.androidappfactory.api.v1.model.controller;
+package nl.androidappfactory.api.v1.controller;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import nl.androidappfactory.services.CategoryService;
 
 @Slf4j
 @Controller
-@RequestMapping("/api/v1/categories/")
+@RequestMapping("/api/v1/categories")
 public class CategoryController {
 
 	private CategoryService categoryService;
@@ -25,7 +25,7 @@ public class CategoryController {
 		this.categoryService = categoryService;
 	}
 
-	@GetMapping("/")
+	@GetMapping("")
 	public ResponseEntity<CategoryListDTO> findAllCategories() {
 
 		log.debug("in findAllCategories: ");

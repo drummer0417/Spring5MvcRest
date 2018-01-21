@@ -1,0 +1,74 @@
+package nl.androidappfactory.api.v1.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import lombok.extern.slf4j.Slf4j;
+import nl.androidappfactory.api.v1.model.CustomerDTO;
+import nl.androidappfactory.api.v1.model.CustomerListDTO;
+import nl.androidappfactory.services.CustomerService;
+
+@Slf4j
+@Controller
+@RequestMapping("/api/v1/customers")
+public class CustomerController {
+
+	CustomerService customerService;
+
+	public CustomerController(CustomerService customerService) {
+		this.customerService = customerService;
+	}
+
+	@GetMapping
+	public ResponseEntity<CustomerListDTO> findAllCustomers() {
+
+		CustomerListDTO customers = new CustomerListDTO(customerService.getAllCustomers());
+		log.debug("After getAllCustomers: " + customers);
+
+		return new ResponseEntity<CustomerListDTO>(customers, HttpStatus.OK);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<CustomerDTO> findCustomerById(@PathVariable String id) {
+
+		CustomerDTO customerDTO = customerService.getCustomerById(new Long(id));
+
+		return new ResponseEntity<CustomerDTO>(customerDTO, HttpStatus.OK);
+	}
+
+	@PostMapping
+	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
+
+		log.debug("before create: " + customerDTO);
+
+		CustomerDTO customerCreated = customerService.createCustomer(customerDTO);
+
+		log.debug("after create: " + customerCreated);
+
+		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerCreated, HttpStatus.CREATED);
+
+		return response;
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable String id) {
+
+		log.debug("before create: " + customerDTO);
+
+		CustomerDTO customerUpdated = customerService.updateCustomer(new Long(id), customerDTO);
+
+		log.debug("after create: " + customerUpdated);
+
+		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerUpdated, HttpStatus.OK);
+
+		return response;
+	}
+
+}

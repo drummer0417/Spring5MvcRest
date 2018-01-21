@@ -12,7 +12,6 @@ public interface CustomerMapper {
 
 	CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 
-	@Mapping(source = "id", target = "id") // Mapping is only needed if fieldnames are different
 	@Mapping(source = "firstName", target = "firstName") // Mapping is only needed if fieldnames are different
 	@Mapping(source = "lastName", target = "lastName") // Mapping is only needed if fieldnames are different
 	CustomerDTO customerToCustomerDTO(Customer customer);

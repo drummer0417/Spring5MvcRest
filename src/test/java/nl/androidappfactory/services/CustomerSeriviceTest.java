@@ -1,10 +1,13 @@
 package nl.androidappfactory.services;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +27,7 @@ public class CustomerSeriviceTest {
 	private static final String FIRST_NAME2 = "FN2";
 	private static final String LAST_NAME1 = "LN1";
 	private static final String LAST_NAME2 = "LN2";
+	private static final String URL1 = "/api/v1/customers/1";
 
 	CustomerMapper customerMapper = CustomerMapper.INSTANCE;;
 
@@ -57,17 +61,62 @@ public class CustomerSeriviceTest {
 	}
 
 	@Test
-	public void getCustomerByFirstName() {
+	public void getCustomerById() {
 
 		Customer customer = new Customer(ID1, FIRST_NAME1, LAST_NAME1);
 
-		when(customerRepository.findByFirstName(FIRST_NAME1)).thenReturn(customer);
+		when(customerRepository.findById(anyLong())).thenReturn(Optional.of(customer));
 
-		CustomerDTO customerDTO = customerService.getCustomerByFirstName(FIRST_NAME1);
+		CustomerDTO customerDTO = customerService.getCustomerById(new Long(ID1));
 
-		assertEquals(ID1, customerDTO.getId());
 		assertEquals(FIRST_NAME1, customerDTO.getFirstName());
 		assertEquals(LAST_NAME1, customerDTO.getLastName());
+		assertEquals(URL1, customerDTO.getCustomerUrl());
+
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void getCustomerByIdNotFound() {
+
+		when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+		CustomerDTO customerDTO = customerService.getCustomerById(new Long(ID1));
+
+		assertEquals("/api/v1/customers/" + ID1, customerDTO.getCustomerUrl());
+		assertEquals(FIRST_NAME1, customerDTO.getFirstName());
+		assertEquals(LAST_NAME1, customerDTO.getLastName());
+	}
+
+	@Test
+	public void testCreateCustomer() {
+
+		Customer savedCustomer = new Customer(ID1, FIRST_NAME1, LAST_NAME1);
+
+		when(customerRepository.save(any())).thenReturn(savedCustomer);
+
+		CustomerDTO customerDTO = customerService.createCustomer(new CustomerDTO());
+
+		assertEquals(URL1, customerDTO.getCustomerUrl());
+		assertEquals(FIRST_NAME1, customerDTO.getFirstName());
+		assertEquals(LAST_NAME1, customerDTO.getLastName());
+		assertEquals(URL1, customerDTO.getCustomerUrl());
+
+	}
+
+	@Test
+	public void testUpdateCustomer() {
+
+		CustomerDTO customerDTOIn = new CustomerDTO(FIRST_NAME1, LAST_NAME1, "any");
+		Customer updatedCustomer = new Customer(ID1, FIRST_NAME1, LAST_NAME1);
+
+		when(customerRepository.save(any())).thenReturn(updatedCustomer);
+
+		CustomerDTO returnedCustomerDTO = customerService.updateCustomer(ID1, customerDTOIn);
+
+		assertEquals(URL1, returnedCustomerDTO.getCustomerUrl());
+		assertEquals(FIRST_NAME1, returnedCustomerDTO.getFirstName());
+		assertEquals(LAST_NAME1, returnedCustomerDTO.getLastName());
+		assertEquals(URL1, returnedCustomerDTO.getCustomerUrl());
 
 	}
 
