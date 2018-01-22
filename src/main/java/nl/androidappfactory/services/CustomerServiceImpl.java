@@ -7,13 +7,12 @@ import java.util.stream.Collectors;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
 import nl.androidappfactory.api.v1.mapper.CustomerMapper;
 import nl.androidappfactory.api.v1.model.CustomerDTO;
 import nl.androidappfactory.domain.Customer;
 import nl.androidappfactory.repositories.CustomerRepository;
 
-@Slf4j
+//@Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -40,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		Optional<Customer> customerOptional = customerRepository.findById(id);
 		if (!customerOptional.isPresent()) {
-			throw new RuntimeException("Customer not found, id: " + id);
+			throw new ResourceNotFoundException("Customer not found, id: " + id);
 		}
 		return convertToDTO(customerOptional.get());
 	}
@@ -73,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		CustomerDTO updatedCustomer = customerRepository.findById(id)
 				.map(originalCustomer -> applyChanges(originalCustomer, patchedCustomer))
-				.orElseThrow(RuntimeException::new); // todo add error handling here
+				.orElseThrow(ResourceNotFoundException::new);
 
 		return updatedCustomer;
 	}
@@ -84,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
 		try {
 			customerRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			log.warn("delete error: " + e.getMessage());
+			throw new ResourceNotFoundException();
 		}
 	}
 

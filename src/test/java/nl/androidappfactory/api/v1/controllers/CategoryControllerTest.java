@@ -20,12 +20,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import lombok.extern.slf4j.Slf4j;
 import nl.androidappfactory.api.v1.controller.CategoryController;
 import nl.androidappfactory.api.v1.model.CategoryDTO;
 import nl.androidappfactory.services.CategoryService;
 
-@Slf4j
 public class CategoryControllerTest {
 
 	private static final Long ID1 = 1l;
@@ -63,7 +61,7 @@ public class CategoryControllerTest {
 
 		when(categoryService.getAllCategories()).thenReturn(categoryDTOs);
 
-		mockMvc.perform(get("/api/v1/categories/").contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(get(getBaseUrl() + "/").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.categories", hasSize(2)));
 
@@ -78,7 +76,7 @@ public class CategoryControllerTest {
 
 		when(categoryService.getCategoryByName(anyString())).thenReturn(cat);
 
-		mockMvc.perform(get("/api/v1/categories/" + NAME1).contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(get(getBaseUrl() + "/" + NAME1).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", equalTo(NAME1)));
 	}

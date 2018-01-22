@@ -29,8 +29,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.androidappfactory.api.v1.controller.CustomerController;
+import nl.androidappfactory.api.v1.controller.RestResponseEntityExceptionHandler;
 import nl.androidappfactory.api.v1.model.CustomerDTO;
-import nl.androidappfactory.services.CustomerService;;
+import nl.androidappfactory.services.CustomerService;
+import nl.androidappfactory.services.ResourceNotFoundException;;
 
 @Slf4j
 public class CustomerControllerTest {
@@ -56,7 +58,9 @@ public class CustomerControllerTest {
 		MockitoAnnotations.initMocks(this);
 
 		customerController = new CustomerController(customerService);
-		mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+				.setControllerAdvice(new RestResponseEntityExceptionHandler())
+				.build();
 	}
 
 	@Test
@@ -85,6 +89,16 @@ public class CustomerControllerTest {
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.firstName", equalTo("FN1")));
+	}
+
+	@Test
+	public void testFindCustomerByIdNotFound() throws Exception {
+
+		when(customerService.getCustomerById(anyLong())).thenThrow(new ResourceNotFoundException());
+
+		mockMvc.perform(get(getBaseUrl() + "/" + new Long(1233213l))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound());
 	}
 
 	@Test

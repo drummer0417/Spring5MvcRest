@@ -24,6 +24,23 @@ public class Bootstrap implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		loadCategoryData();
+
+		loadCustomerData();
+	}
+
+	private void loadCustomerData() {
+		customerRepository.save(new Customer(null, "Hans", "van Meurs"));
+		customerRepository.save(new Customer(null, "Jacky", "van Meurs"));
+		customerRepository.save(new Customer(null, "Cas", "van Meurs"));
+		customerRepository.save(new Customer(null, "Anour", "van Meurs"));
+		customerRepository.save(new Customer(null, "Wilber", "van Leusden"));
+		customerRepository.save(new Customer(null, "Henk", "P"));
+
+		log.info("Customer data loaaded, #customers: " + customerRepository.count());
+	}
+
+	private void loadCategoryData() {
 		Category fruits = new Category();
 		fruits.setName("fruits");
 
@@ -45,16 +62,7 @@ public class Bootstrap implements CommandLineRunner {
 		categoryRepository.save(exotic);
 		categoryRepository.save(nuts);
 
-		log.info("Data loaaded, #categories: " + categoryRepository.count());
-
-		customerRepository.save(new Customer(null, "Hans", "van Meurs"));
-		customerRepository.save(new Customer(null, "Jacky", "van Meurs"));
-		customerRepository.save(new Customer(null, "Cas", "van Meurs"));
-		customerRepository.save(new Customer(null, "Anour", "van Meurs"));
-		customerRepository.save(new Customer(null, "Wilber", "van Leusden"));
-		customerRepository.save(new Customer(null, "Henk", "P"));
-
-		log.info("Data loaaded, #customers: " + customerRepository.count());
+		log.info("Category data loaaded, #categories: " + categoryRepository.count());
 	}
 
 	public String test(String s) {
