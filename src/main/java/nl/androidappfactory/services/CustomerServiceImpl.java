@@ -4,13 +4,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.androidappfactory.api.v1.mapper.CustomerMapper;
 import nl.androidappfactory.api.v1.model.CustomerDTO;
 import nl.androidappfactory.domain.Customer;
 import nl.androidappfactory.repositories.CustomerRepository;
 
+@Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -73,6 +76,16 @@ public class CustomerServiceImpl implements CustomerService {
 				.orElseThrow(RuntimeException::new); // todo add error handling here
 
 		return updatedCustomer;
+	}
+
+	@Override
+	public void deleteCustomer(Long id) {
+
+		try {
+			customerRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			log.warn("delete error: " + e.getMessage());
+		}
 	}
 
 	private CustomerDTO applyChanges(Customer originalCustomer, final CustomerDTO patchedCustomer) {

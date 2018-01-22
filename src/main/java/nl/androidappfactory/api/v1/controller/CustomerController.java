@@ -3,6 +3,7 @@ package nl.androidappfactory.api.v1.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +19,10 @@ import nl.androidappfactory.services.CustomerService;
 
 @Slf4j
 @Controller
-@RequestMapping("/api/v1/customers")
+@RequestMapping(CustomerController.BASE_URL)
 public class CustomerController {
+
+	public final static String BASE_URL = "/api/v1/customers";
 
 	CustomerService customerService;
 
@@ -86,4 +89,10 @@ public class CustomerController {
 		return response;
 	}
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> f(@PathVariable Long id) {
+
+		customerService.deleteCustomer(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 }

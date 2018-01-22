@@ -1,7 +1,6 @@
 package nl.androidappfactory.api.v1.controllers;
 
 import static org.hamcrest.Matchers.equalTo;
-
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -82,5 +81,9 @@ public class CategoryControllerTest {
 		mockMvc.perform(get("/api/v1/categories/" + NAME1).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", equalTo(NAME1)));
+	}
+
+	private static String getBaseUrl() {
+		return CategoryController.BASE_URL;
 	}
 }

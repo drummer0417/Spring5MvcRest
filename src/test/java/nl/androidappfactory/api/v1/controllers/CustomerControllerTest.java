@@ -5,7 +5,10 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,13 +36,12 @@ import nl.androidappfactory.services.CustomerService;;
 public class CustomerControllerTest {
 
 	private static final Long ID1 = new Long(1);
-	private static final Long ID2 = new Long(2);
 	private static final String FIRST_NAME1 = "FN1";
 	private static final String FIRST_NAME2 = "FN2";
 	private static final String LAST_NAME1 = "LN1";
 	private static final String LAST_NAME2 = "LN2";
-	private static final String URL1 = "/api/v1/customers/1";
-	private static final String URL2 = "/api/v1/customers/2";
+	private static final String URL1 = getBaseUrl() + "/1";
+	private static final String URL2 = getBaseUrl() + "/2";
 
 	@Mock
 	CustomerService customerService;
@@ -66,7 +68,7 @@ public class CustomerControllerTest {
 
 		when(customerService.getAllCustomers()).thenReturn(customerDTOs);
 
-		mockMvc.perform(get("/api/v1/customers/")
+		mockMvc.perform(get(getBaseUrl() + "/")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.customers", hasSize(2)));
@@ -79,7 +81,7 @@ public class CustomerControllerTest {
 
 		when(customerService.getCustomerById(anyLong())).thenReturn(cutomerDTO);
 
-		mockMvc.perform(get("/api/v1/customers/" + ID1)
+		mockMvc.perform(get(getBaseUrl() + "/" + ID1)
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.firstName", equalTo("FN1")));
@@ -97,7 +99,7 @@ public class CustomerControllerTest {
 
 		when(customerService.createCustomer(any())).thenReturn(customerCreated);
 
-		mockMvc.perform(post("/api/v1/customers/")
+		mockMvc.perform(post(getBaseUrl() + "/")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(customerAsJson))
 				.andExpect(status().isCreated())
@@ -117,7 +119,7 @@ public class CustomerControllerTest {
 
 		when(customerService.updateCustomer(anyLong(), any())).thenReturn(customerUpdated);
 
-		mockMvc.perform(put("/api/v1/customers/1")
+		mockMvc.perform(put(getBaseUrl() + "/1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(customerAsJson))
 				.andExpect(status().isOk())
@@ -137,7 +139,7 @@ public class CustomerControllerTest {
 
 		when(customerService.patchCustomer(anyLong(), any())).thenReturn(customerUpdated);
 
-		mockMvc.perform(patch("/api/v1/customers/1")
+		mockMvc.perform(patch(getBaseUrl() + "/1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(customerAsJson))
 				.andExpect(status().isOk())
@@ -145,4 +147,16 @@ public class CustomerControllerTest {
 				.andExpect(jsonPath("$.customer_url", equalTo(URL1)));
 	}
 
+	@Test
+	public void testDeleteCustomer() throws Exception {
+
+		mockMvc.perform(delete(getBaseUrl() + "/1"))
+				.andExpect(status().isOk());
+
+		verify(customerService, times(1)).deleteCustomer(anyLong());
+	}
+
+	private static String getBaseUrl() {
+		return CustomerController.BASE_URL;
+	}
 }
