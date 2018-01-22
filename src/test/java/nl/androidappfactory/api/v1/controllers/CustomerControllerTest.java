@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -117,6 +118,26 @@ public class CustomerControllerTest {
 		when(customerService.updateCustomer(anyLong(), any())).thenReturn(customerUpdated);
 
 		mockMvc.perform(put("/api/v1/customers/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(customerAsJson))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME1)))
+				.andExpect(jsonPath("$.customer_url", equalTo(URL1)));
+	}
+
+	@Test
+	public void testPatchCustomers() throws Exception {
+
+		CustomerDTO customerIn = new CustomerDTO(FIRST_NAME1, null, null);
+
+		CustomerDTO customerUpdated = new CustomerDTO(FIRST_NAME1, LAST_NAME1, URL1);
+		String customerAsJson = asJsonString(customerIn);
+
+		log.debug("before create: " + customerAsJson);
+
+		when(customerService.patchCustomer(anyLong(), any())).thenReturn(customerUpdated);
+
+		mockMvc.perform(patch("/api/v1/customers/1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(customerAsJson))
 				.andExpect(status().isOk())

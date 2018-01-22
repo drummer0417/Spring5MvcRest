@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -60,11 +61,25 @@ public class CustomerController {
 	@PutMapping("/{id}")
 	public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable String id) {
 
-		log.debug("before create: " + customerDTO);
+		log.debug("before update: " + customerDTO);
 
 		CustomerDTO customerUpdated = customerService.updateCustomer(new Long(id), customerDTO);
 
-		log.debug("after create: " + customerUpdated);
+		log.debug("after update: " + customerUpdated);
+
+		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerUpdated, HttpStatus.OK);
+
+		return response;
+	}
+
+	@PatchMapping("/{id}")
+	public ResponseEntity<CustomerDTO> patchCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable String id) {
+
+		log.debug("before patch: " + customerDTO);
+
+		CustomerDTO customerUpdated = customerService.patchCustomer(new Long(id), customerDTO);
+
+		log.debug("after patch: " + customerUpdated);
 
 		ResponseEntity<CustomerDTO> response = new ResponseEntity<CustomerDTO>(customerUpdated, HttpStatus.OK);
 

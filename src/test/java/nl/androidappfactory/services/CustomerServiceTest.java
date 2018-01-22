@@ -19,7 +19,7 @@ import nl.androidappfactory.api.v1.model.CustomerDTO;
 import nl.androidappfactory.domain.Customer;
 import nl.androidappfactory.repositories.CustomerRepository;
 
-public class CustomerSeriviceTest {
+public class CustomerServiceTest {
 
 	private static final Long ID1 = 1l;
 	private static final Long ID2 = 2l;
