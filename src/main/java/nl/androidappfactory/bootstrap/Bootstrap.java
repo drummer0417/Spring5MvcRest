@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
 import nl.androidappfactory.domain.Category;
 import nl.androidappfactory.domain.Customer;
+import nl.androidappfactory.domain.Vendor;
 import nl.androidappfactory.repositories.CategoryRepository;
 import nl.androidappfactory.repositories.CustomerRepository;
+import nl.androidappfactory.repositories.VendorRepository;
 
 @Slf4j
 @Component
@@ -15,10 +17,13 @@ public class Bootstrap implements CommandLineRunner {
 
 	private CategoryRepository categoryRepository;
 	private CustomerRepository customerRepository;
+	private VendorRepository vendorRepository;
 
-	public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+	public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository,
+			VendorRepository vendorRepository) {
 		this.categoryRepository = categoryRepository;
 		this.customerRepository = customerRepository;
+		this.vendorRepository = vendorRepository;
 	}
 
 	@Override
@@ -27,6 +32,8 @@ public class Bootstrap implements CommandLineRunner {
 		loadCategoryData();
 
 		loadCustomerData();
+
+		loadVendorData();
 	}
 
 	private void loadCustomerData() {
@@ -38,6 +45,17 @@ public class Bootstrap implements CommandLineRunner {
 		customerRepository.save(new Customer(null, "Henk", "P"));
 
 		log.info("Customer data loaaded, #customers: " + customerRepository.count());
+	}
+
+	private void loadVendorData() {
+		vendorRepository.save(new Vendor(null, "Western Tasty Fruits Ltd."));
+		vendorRepository.save(new Vendor(null, "Exotic Fruits Company"));
+		vendorRepository.save(new Vendor(null, "Home Fruits"));
+		vendorRepository.save(new Vendor(null, "Fun Fresh Fruits Ltd."));
+		vendorRepository.save(new Vendor(null, "Nuts for Nuts Company"));
+		vendorRepository.save(new Vendor(null, "Android App Factory"));
+
+		log.info("Vendor data loaaded, #vendors: " + vendorRepository.count());
 	}
 
 	private void loadCategoryData() {

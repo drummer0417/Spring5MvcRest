@@ -16,6 +16,7 @@ import nl.androidappfactory.bootstrap.Bootstrap;
 import nl.androidappfactory.domain.Customer;
 import nl.androidappfactory.repositories.CategoryRepository;
 import nl.androidappfactory.repositories.CustomerRepository;
+import nl.androidappfactory.repositories.VendorRepository;
 
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -31,6 +32,9 @@ public class CustomerServiceIT {
 	@Autowired
 	CategoryRepository categoryRepository;
 
+	@Autowired
+	VendorRepository vendorRepository;
+
 	CustomerService customerService;
 
 	Customer customerBeforeUpdate;
@@ -38,7 +42,7 @@ public class CustomerServiceIT {
 	@Before
 	public void setUp() throws Exception {
 
-		Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository);
+		Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository, vendorRepository);
 
 		bootstrap.run("any");
 

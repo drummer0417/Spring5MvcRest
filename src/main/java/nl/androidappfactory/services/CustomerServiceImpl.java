@@ -12,7 +12,6 @@ import nl.androidappfactory.api.v1.model.CustomerDTO;
 import nl.androidappfactory.domain.Customer;
 import nl.androidappfactory.repositories.CustomerRepository;
 
-//@Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
