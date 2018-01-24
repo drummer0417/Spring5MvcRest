@@ -3,6 +3,8 @@ package nl.androidappfactory.services;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -90,20 +92,38 @@ public class VendorServiceTest {
 
 	}
 
-	// @Test
-	// public void testPatchVendor() {
-	//
-	// when(vendorRepository.save(any())).thenReturn(vendor2);
-	//
-	// VendorDTO vendorDTOReturned = vendorService.patchVendor(1l, vendorDTO1);
-	//
-	// assertEquals(vendor1.getName(), vendorDTOReturned.getName());
-	// assertEquals(getBaseURL() + "/1", vendorDTOReturned.getVendorUrl());
-	//
-	// }
+	@Test
+	public void testPatchVendor() {
+
+		VendorDTO vendorDTO = new VendorDTO(NAME2, null);
+		Vendor vendor1 = new Vendor(ID1, NAME1);
+
+		when(vendorRepository.save(any())).thenReturn(vendor1);
+		when(vendorRepository.findById(anyLong())).thenReturn(Optional.of(vendor1));
+
+		VendorDTO vendorDTOReturned = vendorService.patchVendor(1l, vendorDTO);
+
+		assertEquals(vendor1.getName(), vendorDTOReturned.getName());
+		assertEquals(getBaseURL() + "/1", vendorDTOReturned.getVendorUrl());
+
+		verify(vendorRepository, times(1)).save(any());
+		verify(vendorRepository, times(1)).findById(anyLong());
+
+	}
 
 	@Test
-	public void testCreateVendor() {}
+	public void testCreateVendor() {
+
+		Vendor vendorSaved = new Vendor(ID1, NAME1);
+		VendorDTO vendorToCreate = new VendorDTO(NAME1, null);
+
+		when(vendorRepository.save(any())).thenReturn(vendorSaved);
+
+		VendorDTO returnedVendor = vendorService.createVendor(vendorToCreate);
+
+		assertEquals(NAME1, returnedVendor.getName());
+		assertEquals(URL1, returnedVendor.getVendorUrl());
+	}
 
 	private static String getBaseURL() {
 		return VendorController.BASE_URL;

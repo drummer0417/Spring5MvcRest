@@ -15,5 +15,4 @@ public class Helper {
 			throw new RuntimeException(e);
 		}
 	}
-
 }

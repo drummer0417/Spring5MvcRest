@@ -61,19 +61,10 @@ public class VendorServiceImpl implements VendorService {
 		return patchedVendor;
 	}
 
-	private VendorDTO applyPatch(Vendor vendor, VendorDTO vendorDTOPatch) {
-
-		if (vendorDTOPatch.getName() != null) {
-			vendor.setName(vendorDTOPatch.getName());
-		}
-		Vendor savedVendor = vendorRepository.save(vendor);
-		return convertToDTO(savedVendor);
-	}
-
 	@Override
 	public VendorDTO createVendor(VendorDTO vendorDTO) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return saveVendor(vendorMapper.vendorDTOToVendor(vendorDTO));
 	}
 
 	private VendorDTO convertToDTO(Vendor vendor) {
@@ -85,6 +76,15 @@ public class VendorServiceImpl implements VendorService {
 	private VendorDTO saveVendor(Vendor vendor) {
 
 		return convertToDTO(vendorRepository.save(vendor));
+	}
+
+	private VendorDTO applyPatch(Vendor vendor, VendorDTO vendorDTOPatch) {
+
+		if (vendorDTOPatch.getName() != null) {
+			vendor.setName(vendorDTOPatch.getName());
+		}
+		Vendor savedVendor = vendorRepository.save(vendor);
+		return convertToDTO(savedVendor);
 	}
 
 }

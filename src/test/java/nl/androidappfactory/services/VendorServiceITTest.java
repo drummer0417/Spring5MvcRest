@@ -2,6 +2,7 @@ package nl.androidappfactory.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.androidappfactory.api.v1.controller.VendorController;
 import nl.androidappfactory.api.v1.mapper.VendorMapper;
 import nl.androidappfactory.api.v1.model.VendorDTO;
 import nl.androidappfactory.bootstrap.Bootstrap;
@@ -22,7 +24,9 @@ import nl.androidappfactory.repositories.VendorRepository;
 @Slf4j
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class VendorServiiceITTest {
+public class VendorServiceITTest {
+
+	private final static String name = "A new company.nl";
 
 	VendorService vendorService;
 
@@ -46,6 +50,18 @@ public class VendorServiiceITTest {
 
 		vendorService = new VendorServiceImpl(vendorRepository, vendorMapper);
 
+	}
+
+	@Test
+	public void testCreateVendor() {
+
+		VendorDTO vendorDTO = new VendorDTO(name, null);
+
+		VendorDTO createdVendor = vendorService.createVendor(vendorDTO);
+		log.debug("after create, url: " + createdVendor.getVendorUrl());
+
+		assertEquals(name, createdVendor.getName());
+		assertTrue(createdVendor.getVendorUrl().startsWith(VendorController.BASE_URL));
 	}
 
 	@Test
