@@ -24,7 +24,7 @@ import nl.androidappfactory.repositories.VendorRepository;
 @Slf4j
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class VendorServiceITTest {
+public class VendorServiceIT {
 
 	private final static String name = "A new company.nl";
 
