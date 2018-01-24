@@ -20,7 +20,7 @@ import nl.androidappfactory.api.v1.model.VendorDTO;
 import nl.androidappfactory.domain.Vendor;
 import nl.androidappfactory.repositories.VendorRepository;
 
-public class VendorServiiceTest {
+public class VendorServiceTest {
 
 	private final static Long ID1 = 1l;
 	private final static String NAME1 = "name1";
