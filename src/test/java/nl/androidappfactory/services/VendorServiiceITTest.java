@@ -22,7 +22,7 @@ import nl.androidappfactory.repositories.VendorRepository;
 @Slf4j
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class VendorServiiceIT {
+public class VendorServiiceITTest {
 
 	VendorService vendorService;
 

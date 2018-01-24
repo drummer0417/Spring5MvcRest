@@ -21,7 +21,7 @@ import nl.androidappfactory.repositories.VendorRepository;
 @Slf4j
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class CustomerServiceIT {
+public class CustomerServiceITTest {
 
 	private final static String FIRST_NAME = "theFirstName";
 	private final static String LAST_NAME = "theLastName";
