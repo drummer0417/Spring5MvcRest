@@ -2,9 +2,7 @@
 
 CircleCI: [![CircleCI](https://circleci.com/gh/drummer0417/Spring5MvcRest.svg?style=svg)](https://circleci.com/gh/drummer0417/Spring5MvcRest)
 
-Code coverage: 
-
-[![codecov](https://codecov.io/gh/drummer0417/Spring5MvcRest/branch/master/graph/badge.svg)](https://codecov.io/gh/drummer0417/Spring5MvcRest)
+Code coverage: [![codecov](https://codecov.io/gh/drummer0417/Spring5MvcRest/branch/master/graph/badge.svg)](https://codecov.io/gh/drummer0417/Spring5MvcRest)
 
 
 
