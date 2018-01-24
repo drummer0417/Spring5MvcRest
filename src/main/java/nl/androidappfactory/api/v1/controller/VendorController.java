@@ -1,6 +1,7 @@
 package nl.androidappfactory.api.v1.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +53,7 @@ public class VendorController {
 	}
 
 	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	public VendorDTO updateVendor(@PathVariable String id, @RequestBody VendorDTO vendorDTO) {
 
 		VendorDTO updateVendor = vendorService.updateVendor(new Long(id), vendorDTO);
@@ -59,10 +61,18 @@ public class VendorController {
 	}
 
 	@PatchMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	public VendorDTO patchVendor(@PathVariable String id, @RequestBody VendorDTO vendorDTO) {
 
 		VendorDTO patchedVendor = vendorService.patchVendor(new Long(id), vendorDTO);
 		return patchedVendor;
+	}
+
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteVendor(@PathVariable String id) {
+
+		vendorService.deleteVendor(new Long(id));
 	}
 
 }

@@ -16,4 +16,6 @@ public interface VendorService {
 
 	public List<VendorDTO> getAllVendors();
 
+	public void deleteVendor(Long id);
+
 }

@@ -67,6 +67,11 @@ public class VendorServiceImpl implements VendorService {
 		return saveVendor(vendorMapper.vendorDTOToVendor(vendorDTO));
 	}
 
+	@Override
+	public void deleteVendor(Long id) {
+		vendorRepository.deleteById(id);
+	}
+
 	private VendorDTO convertToDTO(Vendor vendor) {
 		VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendor);
 		vendorDTO.setVendorUrl("/api/v1/vendors/" + vendor.getId());
@@ -86,5 +91,4 @@ public class VendorServiceImpl implements VendorService {
 		Vendor savedVendor = vendorRepository.save(vendor);
 		return convertToDTO(savedVendor);
 	}
-
 }

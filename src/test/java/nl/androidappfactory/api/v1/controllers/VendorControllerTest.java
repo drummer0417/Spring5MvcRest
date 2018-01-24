@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -122,7 +123,14 @@ public class VendorControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", equalTo(PATCHED_NAME)))
 				.andExpect(jsonPath("$.vendorUrl", equalTo(URL2)));
+	}
 
+	@Test
+	public void testDeleteVendor() throws Exception {
+
+		mockMvc.perform(delete(getBaseUrl() + "/2")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -136,7 +144,6 @@ public class VendorControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", equalTo(NAME2)))
 				.andExpect(jsonPath("$.vendorUrl", equalTo(URL2)));
-
 	}
 
 	private static String getBaseUrl() {

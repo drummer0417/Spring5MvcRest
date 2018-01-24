@@ -125,6 +125,15 @@ public class VendorServiceTest {
 		assertEquals(URL1, returnedVendor.getVendorUrl());
 	}
 
+	@Test
+	public void testDeleteVendor() {
+
+		vendorService.deleteVendor(1l);
+
+		verify(vendorRepository, times(1)).deleteById(anyLong());
+
+	}
+
 	private static String getBaseURL() {
 		return VendorController.BASE_URL;
 	}
