@@ -82,7 +82,7 @@ public class VendorControllerTest {
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", equalTo(NAME1)))
-				.andExpect(jsonPath("$.vendorUrl", equalTo(URL1)));
+				.andExpect(jsonPath("$.vendor_url", equalTo(URL1)));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class VendorControllerTest {
 				.content(asJsonString(new VendorDTO(NAME1, null))))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.name", equalTo(NAME1)))
-				.andExpect(jsonPath("$.vendorUrl", equalTo(URL1)));
+				.andExpect(jsonPath("$.vendor_url", equalTo(URL1)));
 	}
 
 	@Test
@@ -108,7 +108,7 @@ public class VendorControllerTest {
 				.content(asJsonString(new VendorDTO(NAME1, null))))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", equalTo(NAME2)))
-				.andExpect(jsonPath("$.vendorUrl", equalTo(URL2)));
+				.andExpect(jsonPath("$.vendor_url", equalTo(URL2)));
 
 	}
 
@@ -122,7 +122,7 @@ public class VendorControllerTest {
 				.content(asJsonString(new VendorDTO(NAME1, null))))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", equalTo(PATCHED_NAME)))
-				.andExpect(jsonPath("$.vendorUrl", equalTo(URL2)));
+				.andExpect(jsonPath("$.vendor_url", equalTo(URL2)));
 	}
 
 	@Test
@@ -143,7 +143,7 @@ public class VendorControllerTest {
 				.content(asJsonString(new VendorDTO())))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", equalTo(NAME2)))
-				.andExpect(jsonPath("$.vendorUrl", equalTo(URL2)));
+				.andExpect(jsonPath("$.vendor_url", equalTo(URL2)));
 	}
 
 	private static String getBaseUrl() {
