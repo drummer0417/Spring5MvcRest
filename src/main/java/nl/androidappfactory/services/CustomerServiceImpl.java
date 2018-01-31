@@ -12,11 +12,6 @@ import nl.androidappfactory.api.v1.model.CustomerDTO;
 import nl.androidappfactory.domain.Customer;
 import nl.androidappfactory.repositories.CustomerRepository;
 
-/**
- * 
- * @author Hans van Meurs
- *
- */
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
